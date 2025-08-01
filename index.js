@@ -139,6 +139,33 @@ app.post('/avaliar', async (req, res) => {
     }
 });
 
+app.get('/log', (req, res) => {
+    const logFile = 'log.json';
+
+    try {
+        if (fs.existsSync(logFile)) {
+            res.download(logFile, 'log.json');
+        } else {
+            res.status(404).json({ erro: 'Arquivo de log não encontrado' });
+        }
+    } catch (err) {
+        console.error('Erro ao baixar o log:', err);
+        res.status(500).json({ erro: 'Erro ao tentar baixar o log' });
+    }
+});
+
+app.delete('/log', (req, res) => {
+    const logFile = 'log.json';
+
+    try {
+        fs.writeFileSync(logFile, '[]', 'utf8');
+        res.json({ mensagem: 'Log apagado com sucesso' });
+    } catch (err) {
+        console.error('Erro ao apagar o log:', err);
+        res.status(500).json({ erro: 'Erro ao tentar apagar o log' });
+    }
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`API ouvindo na porta ${PORT}`);
