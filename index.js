@@ -105,7 +105,7 @@ app.post('/avaliar', async (req, res) => {
     }
 
     try {
-        const key = process.env.GOOGLE_API_KEY;
+        const key = process.env.GOOGLE_MAPS_API_KEY;
         if (!key) {
             return res.status(500).json({ erro: 'Chave da API não configurada' });
         }
