@@ -48,7 +48,7 @@ function goodrota(destino) {
     if (!destino?.lat || !destino?.lng) return false;
 
     const uber_destino = Distancia(LAT_UBER, LNG_UBER, destino.lat, destino.lng);
-    if (uber_destino === 0) return true;
+    
 
     for (let j = 0; j < indice; j++) {
         const referencia = geral[0][j];
@@ -56,7 +56,7 @@ function goodrota(destino) {
 
         const uber_ponto = Distancia(LAT_UBER, LNG_UBER, referencia.lat, referencia.lng);
         const destino_ponto = Distancia(destino.lat, destino.lng, referencia.lat, referencia.lng);
-
+        if (destino_ponto === 0) return true; // Se o destino é exatamente o ponto de referência}
         let busca = uber_ponto * AJUSTE;
         if (referencia?.prox !== undefined) {
             busca = uber_ponto * (referencia.prox / 100);
@@ -124,8 +124,8 @@ app.post('/avaliar', async (req, res) => {
         const avaliacao = {
             endereco_original: endereco,
             endereco_formatado: data.results[0].formatted_address,
-            latitude: local.lat,
-            longitude: local.lng,
+            lat: local.lat,
+            lng: local.lng,
             rota: rotaValida
         };
 
